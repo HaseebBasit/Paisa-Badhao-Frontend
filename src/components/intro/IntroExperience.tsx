@@ -5,15 +5,22 @@ import React, { useState, useEffect, useRef } from 'react';
 interface IntroExperienceProps {
   onComplete?: () => void;
   videoSrc?: string;
+  mobileVideoSrc?: string;
 }
 
 export const IntroExperience: React.FC<IntroExperienceProps> = ({
   onComplete,
   videoSrc = '/videos/intro.mp4',
+  mobileVideoSrc = '/videos/intro-mobile.mp4',
 }) => {
   const [isEnded, setIsEnded] = useState<boolean>(false);
   const [isFading, setIsFading] = useState<boolean>(false);
   const [needsSoundTap, setNeedsSoundTap] = useState<boolean>(false);
+  const [activeVideoSrc] = useState(() =>
+    typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
+      ? mobileVideoSrc
+      : videoSrc,
+  );
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -88,7 +95,7 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
       {/* Fill the viewport consistently on desktop and mobile. */}
       <video
         ref={videoRef}
-        src={videoSrc}
+        src={activeVideoSrc}
         autoPlay
         playsInline
         preload="metadata"
