@@ -604,7 +604,7 @@ export default function TradingTerminalPage() {
                     min="1"
                     value={quantity}
                     onChange={(e) => setQuantity(Math.max(1, parseInt(e.target.value, 10) || 1))}
-                    className="flex-1 text-center py-1.5 rounded-lg bg-forest-950 border border-emerald-900/40 font-mono font-bold text-white text-sm focus:outline-none focus:border-emerald-500"
+                    className="flex-1 min-w-0 text-center py-2 rounded-lg bg-white border border-emerald-700 font-mono font-bold text-forest-950 text-base focus:outline-none focus:ring-2 focus:ring-emerald-500 placeholder:text-slate-500"
                   />
                   <button
                     onClick={() => setQuantity(quantity + 50)}

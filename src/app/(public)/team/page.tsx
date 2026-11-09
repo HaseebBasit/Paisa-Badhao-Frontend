@@ -9,7 +9,7 @@ import Footer from '@/components/layout/Footer';
 export default function TeamPage() {
   const teamMembers = [
     {
-      name: 'Muhammad Raof',
+      name: 'ABDUL RAOF',
       position: 'Team Lead',
       image: '/images/team-raof.jpg',
       bio: 'Leading technological infrastructure, systems scalability, and security architecture across the PAISA BADHAO platform. Passionate about empowering Pakistanis with resilient digital financial solutions.',

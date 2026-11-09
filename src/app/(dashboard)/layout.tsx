@@ -215,9 +215,6 @@ export default function DashboardLayout({
           <div className="space-y-3 pt-4 border-t border-emerald-900/40">
             <div className="p-3.5 rounded-2xl bg-gradient-to-br from-forest-800 to-forest-950 border border-emerald-600/30 text-white space-y-2 shadow-xs">
               <div className="flex items-center gap-2">
-                <div className="w-6 h-6 rounded-lg bg-emerald-500/20 text-emerald-400 flex items-center justify-center">
-                  <Sparkles className="w-3.5 h-3.5" />
-                </div>
                 <span className="text-xs font-bold text-white">Paisa Dost AI</span>
               </div>
               <p className="text-[11px] text-slate-300 leading-snug">

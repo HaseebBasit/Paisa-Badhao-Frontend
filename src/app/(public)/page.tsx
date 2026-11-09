@@ -354,17 +354,17 @@ export default function HomePage() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 max-w-2xl mx-auto">
-            {/* Muhammad Raof */}
+            {/* ABDUL RAOF */}
             <div className="p-8 rounded-3xl bg-surface-light border border-slate-200/80 text-center hover:border-emerald-600 transition-all hover:shadow-lg flex flex-col items-center">
               <div className="relative w-28 h-32 rounded-2xl overflow-hidden shadow-md border-2 border-white mb-4">
                 <Image
                   src="/images/team-raof.jpg"
-                  alt="Muhammad Raof"
+                  alt="ABDUL RAOF"
                   fill
                   className="object-cover object-top"
                 />
               </div>
-              <h3 className="font-serif font-bold text-xl text-forest-900">Muhammad Raof</h3>
+              <h3 className="font-serif font-bold text-xl text-forest-900">ABDUL RAOF</h3>
               <p className="text-xs font-semibold text-emerald-700 uppercase tracking-widest mt-1 mb-3">
                 Team Lead
               </p>

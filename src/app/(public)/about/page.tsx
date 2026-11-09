@@ -151,13 +151,13 @@ export default function AboutPage() {
               <div className="relative w-20 h-24 rounded-2xl overflow-hidden shadow-xs border border-slate-100 shrink-0">
                 <Image
                   src="/images/team-raof.jpg"
-                  alt="Muhammad Raof"
+                  alt="ABDUL RAOF"
                   fill
                   className="object-cover object-top"
                 />
               </div>
               <div>
-                <h3 className="font-serif font-bold text-lg text-forest-900">Muhammad Raof</h3>
+                <h3 className="font-serif font-bold text-lg text-forest-900">ABDUL RAOF</h3>
                 <p className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">Team Lead</p>
                 <p className="text-xs text-slate-500 mt-1">Driving technological architecture and system scalability.</p>
               </div>
