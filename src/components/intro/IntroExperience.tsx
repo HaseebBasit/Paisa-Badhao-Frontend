@@ -16,15 +16,18 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
   const [isEnded, setIsEnded] = useState<boolean>(false);
   const [isFading, setIsFading] = useState<boolean>(false);
   const [needsSoundTap, setNeedsSoundTap] = useState<boolean>(false);
-  const [activeVideoSrc] = useState(() =>
-    typeof window !== 'undefined' && window.matchMedia('(max-width: 767px)').matches
-      ? mobileVideoSrc
-      : videoSrc,
-  );
+  const [activeVideoSrc, setActiveVideoSrc] = useState<string | null>(null);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    setActiveVideoSrc(
+      window.matchMedia('(max-width: 767px)').matches ? mobileVideoSrc : videoSrc,
+    );
+  }, [mobileVideoSrc, videoSrc]);
+
+  useEffect(() => {
+    if (!activeVideoSrc) return;
 
     // Show the intro first on each fresh page load, then reveal the website.
     sessionStorage.removeItem('pb_intro_played');
@@ -48,7 +51,7 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
     return () => {
       document.body.style.overflow = '';
     };
-  }, [onComplete]);
+  }, [activeVideoSrc, onComplete]);
 
   const finishIntro = () => {
     setIsFading(true);
@@ -95,7 +98,7 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
       {/* Fill the viewport consistently on desktop and mobile. */}
       <video
         ref={videoRef}
-        src={activeVideoSrc}
+        src={activeVideoSrc ?? videoSrc}
         autoPlay
         playsInline
         preload="metadata"
