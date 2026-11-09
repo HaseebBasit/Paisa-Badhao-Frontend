@@ -13,6 +13,7 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
 }) => {
   const [isEnded, setIsEnded] = useState<boolean>(false);
   const [isFading, setIsFading] = useState<boolean>(false);
+  const [needsSoundTap, setNeedsSoundTap] = useState<boolean>(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
 
   useEffect(() => {
@@ -35,13 +36,13 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
 
     const videoEl = videoRef.current;
     if (videoEl) {
-      // Start immediately; browsers that block audible autoplay still allow muted playback.
-      videoEl.muted = true;
+      // Try audible autoplay first; fall back to immediate muted playback if blocked.
+      videoEl.muted = false;
       const playPromise = videoEl.play();
       if (playPromise !== undefined) {
-        playPromise.catch((err) => {
+        playPromise.catch(() => {
           videoEl.muted = true;
-          videoEl.play().catch(() => finishIntro());
+          videoEl.play().then(() => setNeedsSoundTap(true)).catch(() => finishIntro());
         });
       }
     }
@@ -73,8 +74,13 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
     finishIntro();
   };
 
-  const handleUserInteractPlay = () => {
-    videoRef.current?.play().catch(() => finishIntro());
+  const handleEnableSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = false;
+    video.play().then(() => setNeedsSoundTap(false)).catch(() => {
+      video.muted = true;
+    });
   };
 
   if (isEnded) {
@@ -84,21 +90,32 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
   return (
     <div
       id="intro-screen-overlay"
-      className={`fixed inset-0 z-[9999] w-screen h-screen bg-black overflow-hidden select-none m-0 p-0 border-0 transition-opacity duration-700 ${
+      className={`fixed inset-0 z-[9999] w-full h-screen min-h-[100svh] bg-black overflow-hidden select-none m-0 p-0 border-0 transition-opacity duration-500 ${
         isFading ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* Full-screen video covering 100vw x 100vh without borders or margins */}
+      {/* Preserve the whole video on narrow screens and account for mobile browser bars. */}
       <video
         ref={videoRef}
         src={videoSrc}
         autoPlay
         playsInline
-        preload="auto"
+        preload="metadata"
         onEnded={handleVideoEnded}
         onError={handleVideoError}
-        className="w-full h-full object-cover block m-0 p-0"
+        className="absolute inset-0 w-full h-full object-contain block m-0 p-0 [height:100dvh]"
       />
+
+      {needsSoundTap && (
+        <button
+          type="button"
+          onClick={handleEnableSound}
+          className="absolute bottom-5 right-5 z-10 rounded-full bg-black/70 px-4 py-2 text-sm font-semibold text-white ring-1 ring-white/30 backdrop-blur-sm"
+          aria-label="Enable intro video sound"
+        >
+          Tap for sound
+        </button>
+      )}
 
     </div>
   );
