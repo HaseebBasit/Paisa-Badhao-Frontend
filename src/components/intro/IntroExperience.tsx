@@ -19,17 +19,8 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
   useEffect(() => {
     if (typeof window === 'undefined') return;
 
-    // Check if intro has already completed during this browser session
-    const alreadyPlayed = sessionStorage.getItem('pb_intro_played');
-    if (alreadyPlayed === 'true') {
-      setIsEnded(true);
-      document.documentElement.classList.add('intro-completed');
-      document.documentElement.classList.remove('intro-pending');
-      if (onComplete) onComplete();
-      return;
-    }
-
-    // Mark intro pending to ensure underlying content stays completely hidden
+    // Show the intro first on each fresh page load, then reveal the website.
+    sessionStorage.removeItem('pb_intro_played');
     document.documentElement.classList.add('intro-pending');
     document.documentElement.classList.remove('intro-completed');
     document.body.style.overflow = 'hidden';
@@ -90,11 +81,11 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
   return (
     <div
       id="intro-screen-overlay"
-      className={`fixed inset-0 z-[9999] w-full h-screen min-h-[100svh] bg-black overflow-hidden select-none m-0 p-0 border-0 transition-opacity duration-500 ${
+      className={`fixed inset-0 z-[9999] w-full h-screen min-h-[100svh] bg-black overflow-hidden select-none m-0 p-0 border-0 transition-opacity duration-500 [height:100dvh] ${
         isFading ? 'opacity-0 pointer-events-none' : 'opacity-100'
       }`}
     >
-      {/* Preserve the whole video on narrow screens and account for mobile browser bars. */}
+      {/* Fill the viewport consistently on desktop and mobile. */}
       <video
         ref={videoRef}
         src={videoSrc}
@@ -103,7 +94,7 @@ export const IntroExperience: React.FC<IntroExperienceProps> = ({
         preload="metadata"
         onEnded={handleVideoEnded}
         onError={handleVideoError}
-        className="absolute inset-0 w-full h-full object-contain block m-0 p-0 [height:100dvh]"
+        className="absolute inset-0 w-full h-full object-cover object-center block m-0 p-0 [height:100dvh]"
       />
 
       {needsSoundTap && (

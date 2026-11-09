@@ -20,22 +20,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        {/* Synchronous inline script to prevent any flash of content before intro video */}
+        {/* Hide page content until the intro animation has completed. */}
         <script
           dangerouslySetInnerHTML={{
             __html: `
-              (function() {
-                try {
-                  var played = sessionStorage.getItem('pb_intro_played');
-                  if (played === 'true') {
-                    document.documentElement.classList.add('intro-completed');
-                  } else {
-                    document.documentElement.classList.add('intro-pending');
-                  }
-                } catch(e) {
-                  document.documentElement.classList.add('intro-completed');
-                }
-              })();
+              document.documentElement.classList.add('intro-pending');
             `,
           }}
         />
